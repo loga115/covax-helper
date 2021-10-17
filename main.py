@@ -62,6 +62,17 @@ if not rootbool:
 txt3.pack(pady=30)
 boo1 = 0
 
+# REGISTER SECTION
+def regwindow():
+    root.withdraw()
+    global rg1
+    rg1 = Toplevel()
+    ui = rg1
+    l1 = Label(ui, image=backg)
+    l1.place(x=0, y=0)
+
+
+
 
 # BOOKING SECTION START
 def nwback():
@@ -499,7 +510,7 @@ def mmenu():
 
 
 # buttons come last because functions must be declared first
-bt1 = Button(root, text="Book a vaccine slot", bg='#d2e3f3', command=book)
+'''bt1 = Button(root, text="Book a vaccine slot", bg='#d2e3f3', command=book)
 bt2 = Button(root, text="Check booking details", bg='#bad5ed', command=search)
 bt3 = Button(root, text="Cancel my booking", bg='#bad5ed', command=cancel)
 btn2 = Button(root, text="   Exit   ", bg='#bad5ed', command=die)
@@ -511,6 +522,6 @@ btn2['font'] = fint
 bt1.pack(pady=15)
 bt2.pack(pady=15)
 bt3.pack(pady=15)
-btn2.pack(pady=15)
+btn2.pack(pady=15)'''
 
 root.mainloop()
