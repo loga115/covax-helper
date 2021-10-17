@@ -23,15 +23,17 @@ import re
 strg = tkinter.StringVar
 h = 0
 root = Tk()
-screen_width = root.winfo_screenwidth()  # this is a function used to get width of the computer running windows
+root.withdraw()
+logroot = Toplevel()
+screen_width = logroot.winfo_screenwidth()  # this is a function used to get width of the computer running windows
 sw = screen_width / 2
-screen_height = root.winfo_screenheight()
+screen_height = logroot.winfo_screenheight()
 sh = screen_height / 2
 appw = 1280
 apph: int = 720
 backg = PhotoImage(file="E:\d.png")
 rootbool = False
-
+regd = False
 x = int(sw - (appw / 2))
 # this is used to position the app widget relative to the resolution of whatever monitor it's running on
 y = int(sh - (apph / 2))
@@ -42,13 +44,13 @@ geo = f'{appw}x{apph}+{x}+{y}'
 print(geo)  # debugging for window width/height
 
 # main window
-root.title('CoVax Helper')
-root.geometry(geo)
-label1 = Label(root, image=backg)
+logroot.title('CoVax Helper')
+logroot.geometry(geo)
+label1 = Label(logroot, image=backg)
 label1.place(x=0, y=0)
-txt1 = Label(root, text="Welcome to Covax Helper", bg='#ffffff')
-# txt2 = Label(root, text= "Covax Helper", bg='#e9f2f9')
-txt3 = Label(root, text="I want to..", bg='#ddeaf6')
+txt1 = Label(logroot, text="Welcome to Covax Helper", bg='#ffffff')
+# txt2 = Label(logroot, text= "Covax Helper", bg='#e9f2f9')
+txt3 = Label(logroot, text="I want to..", bg='#ddeaf6')
 
 # globally used font definitions
 fint = font.Font(family='Mont ExtraLight DEMO', size=20)
@@ -62,51 +64,72 @@ if not rootbool:
 # txt2.pack()
 txt3.pack(pady=30)
 boo1 = 0
-user = {}
-
 
 def die():  # kills the program because not over 18
     print("die")
     sys.exit()
 
 # REGISTER SECTION
+
 def goback():
+    regd = True
     rg1.withdraw()
+    global newroot
     newroot = Toplevel()
     newroot.geometry(geo)
     root = newroot
+    label1 = Label(root, image=backg)
+    label1.place(x=0, y=0)
+    txt1 = Label(root, text="Welcome to Covax Helper", bg='#ffffff')
+    # txt2 = Label(root, text= "Covax Helper", bg='#e9f2f9')
+    txt2 = Label(root, text="I want to..", bg='#ddeaf6')
+    txt1.pack(pady=30)
+    txt2.pack(pady=30)
     top = Frame(root, bg='#ffffff')
     bottom = Frame(root, bg='#bad5ed')
     top.pack(pady=10)
     bottom.pack()
+
+
     b1 = Button(root, text="REGISTER", bg='#bad5ed', command=regwindow)
     b1['font'] = fint
     b2 = Button(root, text="LOGIN", bg='#bad5ed', command=logwindow)
     btn2 = Button(root, text="   EXIT   ", bg='#bad5ed', command=die)
+    txt1['font'] = fynt
+    txt2['font'] = fynt
     b2['font'] = fint
     btn2['font'] = fint
+
     b1.pack(in_=bottom, side=LEFT)
     b2.pack(in_=bottom, side=LEFT)
     btn2.pack(in_=bottom, pady=10)
 
-def regget():
-    print("create user")
+def regget(): # this is very bad code.
     username = regwindow.text1.get(1.0, 'end-1c')
     secr = regwindow.text2.get()
-    user[username] = secr
-    with open('user.dat', 'ab') as userfile:
-        pickle.dump(user, userfile)
+    ufile = open('user.dat', 'rb')
+    usfile = pickle.load(ufile)
+    usfile[username] = secr
+    ufile.close()
+    userwrite = open('user.dat', 'wb')
+    pickle.dump(usfile, userwrite)
+    userwrite.flush()
+    userwrite.close()
+    test = open('user.dat', 'rb')
+    sus = pickle.load(test)
+    test.close()
     tkinter.messagebox.showinfo('Account created', 'Your account has been created.')
+    goback()
 
 def regwindow():
-    root.withdraw()
+    logroot.withdraw()
+    reet.withdraw()
     global rg1
     rg1 = Toplevel()
     ui = rg1
     l1 = Label(ui, image=backg)
     l1.place(x=0, y=0)
     rg1.geometry(geo)
-    print("data time")
     tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
     tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
     regwindow.text2 = Entry(ui, show="*", textvariable=strg, bg='#bad5ed')
@@ -123,50 +146,40 @@ def regwindow():
     regwindow.text2.place(x=sw / 2, y=sh / 8 + sh / 10, height=40, width=160)
     btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
 
-def logget():
-    print("check if real")
+def captcha():
+    print('called?')
+    import random
+    text = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    global reet
+    reet = Toplevel()
+    reet.title("Captcha verification")
+    reet.geometry("300x150")
+    captcha = StringVar()
+    input = StringVar()
 
-def logwindow():
-    print("yeah")
-    root.withdraw()
-    global lg1
-    lg1 = Toplevel()
-    ui = rg1
-    l1 = Label(ui, image=backg)
-    l1.place(x=0, y=0)
-    rg1.geometry(geo)
-    print("data time")
-    tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
-    tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
-    regwindow.text2 = Entry(ui, show="*", textvariable=strg, bg='#bad5ed')
-    regwindow.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
-    btn = Button(ui, text="Submit", bg='#bad5ed', command=logget)
-    btn['font'] = fint
-    tl1['font'] = fynt
-    tl2['font'] = fynt
-    tl1.place(x=sw / 8, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
-    tl2.place(x=sw / 8, y=sh / 8 + sh / 10)
-    '''tl3.place(x=sw / 8, y=sh / 8 + sh / 5)
-    tl4.place(x=sw / 8, y=sh / 8 + sh / 3)'''
-    regwindow.text1.place(x=sw / 2, y=sh / 8)
-    regwindow.text2.place(x=sw / 2, y=sh / 8 + sh / 10, height=40, width=160)
-    btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
+    def create_captcha():
+        c = random.choices(text, k=5)
+        captcha.set(''.join(c))
+
+    def check():
+        if captcha.get() == input.get():
+            tkinter.messagebox.showinfo('Captcha Verification', 'Captcha verified Succesfully..')
+            reet.withdraw()
+            regwindow()
+        else:
+            tkinter.messagebox.showerror('Captcha Verification', 'Incorrect Captcha')
+        input.set('')
+        create_captcha()
+
+    Label(reet, textvariable=captcha, font="ariel 16 bold").pack(padx=5, pady=5)
+    Entry(reet, textvariable=input, bg='white', font="ariel 12 bold").pack(padx=5, pady=5)
+    Button(reet, text="Check", font="ariel 15 bold", bg='lightblue', command=check).pack(padx=5, pady=5)
+    create_captcha()
 
 
-top = Frame(root, bg='#ffffff')
-bottom = Frame(root, bg='#bad5ed')
-top.pack(pady=10)
-bottom.pack()
-b1 = Button(root, text="REGISTER", bg='#bad5ed', command=regwindow)
-b1['font'] = fint
-b2 = Button(root, text="LOGIN", bg='#bad5ed', command=logwindow)
-btn2 = Button(root, text="   EXIT   ", bg='#bad5ed', command=die)
-b2['font'] = fint
-btn2['font'] = fint
-b1.pack(in_=bottom, side=LEFT)
-b2.pack(in_=bottom, side=LEFT)
-btn2.pack(in_=bottom, pady=10)
 
+def capcall():
+    captcha()
 
 # BOOKING SECTION START
 def nwback():
@@ -591,6 +604,131 @@ def cancel():  # cancel function
     btn.place(x=sw - (appw / 3.5), y=sh - (apph - 700))
     btn2.place(x=sw - (appw / 3.5), y=sh - (apph - 775))
 
+# LOGIN SECTION
+
+def pleasework():
+    logroot.withdraw()
+    root.deiconify()
+    screen_width = root.winfo_screenwidth()  # this is a function used to get width of the computer running windows
+    sw = screen_width / 2
+    screen_height = root.winfo_screenheight()
+    sh = screen_height / 2
+    appw = 1280
+    apph: int = 720
+    backg = PhotoImage(file="E:\d.png")
+    rootbool = False
+
+    x = int(sw - (appw / 2))
+    # this is used to position the app widget relative to the resolution of whatever monitor it's running on
+    y = int(sh - (apph / 2))
+    # xn=int(appw+x) deprecated
+    # xy=int(apph+y) deprecated
+    geo = f'{appw}x{apph}+{x}+{y}'
+
+    print(geo)  # debugging for window width/height
+
+    # main window
+    root.title('CoVax Helper')
+    root.geometry(geo)
+    label1 = Label(root, image=backg)
+    label1.place(x=0, y=0)
+    txt1 = Label(root, text="Welcome to Covax Helper", bg='#ffffff')
+    # txt2 = Label(root, text= "Covax Helper", bg='#e9f2f9')
+    txt3 = Label(root, text="I want to..", bg='#ddeaf6')
+
+    # globally used font definitions
+    fint = font.Font(family='Mont ExtraLight DEMO', size=20)
+    fynt: Font = font.Font(family='Mont ExtraLight DEMO', size=25)
+    fent = font.Font(family='Mont ExtraLight DEMO', size=35)
+    txt1['font'] = fent
+    # txt2['font']=fint
+    txt3['font'] = fynt
+    if not rootbool:
+        txt1.pack(pady=30)
+    # txt2.pack()
+    txt3.pack(pady=30)
+    boo1 = 0
+    bt1 = Button(root, text="Book a vaccine slot", bg='#d2e3f3', command=book)
+    bt2 = Button(root, text="Check booking details", bg='#bad5ed', command=search)
+    bt3 = Button(root, text="Cancel my booking", bg='#bad5ed', command=cancel)
+    btn2 = Button(root, text="   Exit   ", bg='#bad5ed', command=die)
+
+    bt1['font'] = fint
+    bt2['font'] = fint
+    bt3['font'] = fint
+    btn2['font'] = fint
+    bt1.pack(pady=15)
+    bt2.pack(pady=15)
+    bt3.pack(pady=15)
+    btn2.pack(pady=15)
+
+
+def logget():
+    print("check if real")
+    username = regwindow.text1.get(1.0, 'end-1c')
+    secr = regwindow.text2.get()
+    user = open('user.dat', 'rb')
+    users = pickle.load(user)
+    if username in users.keys():
+        l = users[username]
+        if l == secr:
+            msg = 'Successfully logged in. Welcome, '+username+'.'
+            tkinter.messagebox.showinfo('Success', msg)
+            lg1.withdraw()
+            pleasework()
+
+        else:
+            tkinter.messagebox.showerror('Failure', 'Incorrect username or password.')
+    else:
+        tkinter.messagebox.showerror('Failure', 'Account does not exist.')
+
+
+def logwindow():
+    print("yeah")
+    if regd:
+        newroot.withdraw()
+    logroot.withdraw()
+    global lg1
+    lg1 = Toplevel()
+    ui = lg1
+    l1 = Label(ui, image=backg)
+    l1.place(x=0, y=0)
+    lg1.geometry(geo)
+    print("data time")
+    tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
+    tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
+    regwindow.text2 = Entry(ui, show="*", textvariable=strg, bg='#bad5ed')
+    regwindow.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
+    btn = Button(ui, text="Submit", bg='#bad5ed', command=logget)
+    btn['font'] = fint
+    tl1['font'] = fynt
+    tl2['font'] = fynt
+    tl1.place(x=sw / 8, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
+    tl2.place(x=sw / 8, y=sh / 8 + sh / 10)
+    '''tl3.place(x=sw / 8, y=sh / 8 + sh / 5)
+    tl4.place(x=sw / 8, y=sh / 8 + sh / 3)'''
+    regwindow.text1.place(x=sw / 2, y=sh / 8)
+    regwindow.text2.place(x=sw / 2, y=sh / 8 + sh / 10, height=40, width=160)
+    btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
+
+# END LOGIN/REGISTRATION FUNCTION
+top = Frame(logroot, bg='#ffffff')
+bottom = Frame(logroot, bg='#bad5ed')
+top.pack(pady=10)
+bottom.pack()
+b1 = Button(logroot, text="REGISTER", bg='#bad5ed', command=captcha)
+b1['font'] = fint
+b2 = Button(logroot, text="LOGIN", bg='#bad5ed', command=logwindow)
+btn2 = Button(logroot, text="   EXIT   ", bg='#bad5ed', command=die)
+txt1['font'] = fynt
+# txt2['font'] = fynt
+b2['font'] = fint
+btn2['font'] = fint
+
+b1.pack(in_=bottom, side=LEFT)
+b2.pack(in_=bottom, side=LEFT)
+btn2.pack(in_=bottom, pady=10)
+
 
 def mmenu():
     global rootbool
@@ -600,18 +738,4 @@ def mmenu():
 
 
 # buttons come last because functions must be declared first
-'''bt1 = Button(root, text="Book a vaccine slot", bg='#d2e3f3', command=book)
-bt2 = Button(root, text="Check booking details", bg='#bad5ed', command=search)
-bt3 = Button(root, text="Cancel my booking", bg='#bad5ed', command=cancel)
-btn2 = Button(root, text="   Exit   ", bg='#bad5ed', command=die)
-
-bt1['font'] = fint
-bt2['font'] = fint
-bt3['font'] = fint
-btn2['font'] = fint
-bt1.pack(pady=15)
-bt2.pack(pady=15)
-bt3.pack(pady=15)
-btn2.pack(pady=15)'''
-
 root.mainloop()
