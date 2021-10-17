@@ -194,3 +194,4 @@ def cancel_1(area, hospital, id):
         print("you messed up")
         db.commit()
         db.close()
+# end
