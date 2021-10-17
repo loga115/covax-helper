@@ -9,7 +9,7 @@ from sql import *
 import re
 
 # TODO add more hospitals -
-# TODO add page taht shows location of chosen hospital
+# TODO add page taht shows location of chosen hospital -- this seems a little too complicated
 # TODO add "Check Occupancy" feature on book11
 # TODO hover interactions
 # TODO debug the program
@@ -69,7 +69,7 @@ def nwback():
     mmenu()
 
 
-def endwindow():
+def endwindow(): # thank you window
     endwindow.root3 = Toplevel()
     ui = endwindow.root3
     endwindow.root3.geometry(geo)
@@ -106,7 +106,7 @@ def kill():  # gives you the referral code for search function
     endwindow()
 
 
-def bookcommit():  # this is where icall the sql file to make changes to database
+def bookcommit():  # this is where i call the sql file to make changes to database
 
     area = ''
     uid = 0
@@ -204,7 +204,7 @@ def finalbook(event):  # get details of patient and add to table finally
 
 
 # noinspection PyUnusedLocal
-def ac_caller(event):
+def ac_caller(event): # calls area caller. a calling function calling a calling function. meta..
     area_caller()
 
 
@@ -243,7 +243,7 @@ def area_caller():  # give them a hospital list depending on area, part of book 
     area_caller.value = area_caller.hospitals.get()
     print(areo)
     if areo == 'North Chennai':
-        area = 'northchennai'
+        area = 'obama_chennai'
         aria = 1
         hospitals = hospitalz(area)
         print(hospitals)
@@ -324,14 +324,25 @@ def swedow():
 
 def search2():  # second window of search that shows fetched data
     print("gamer")
-    aria = int(search.text1.get(1.0, "end-1c"))
-    hosp = search.text2.get(1.0, "end-1c")
-    aidi = int(search.text3.get(1.0, "end-1c"))
+    aria = 0
+    hosp = ''
+    aidi = 0
+    arua = (search.text1.get(1.0, "end-1c"))
+    '''hosp = search.text2.get(1.0, "end-1c")
+    aidi = int(search.text3.get(1.0, "end-1c"))'''
+    yea = ()
+    yea = arua.split("-")
+    print(yea)
+    aria = int(yea[0])
+    hosp = yea[1]
+    aidi = int(yea[2])
+
     # if int(search.text3.get(1.0, "end-1c")).isnumeric(): DEPRECATED
 
     # else:
     # tkinter.messagebox.showerror("numnum", "Incorrect ID. Exiting..")
     # sys.exit()
+    '''hosp, aidi'''
     real = isreal(aria, hosp, aidi)
     if not real:
         tkinter.messagebox.showerror("Invalid entry", "This booking does not exist in the DB. Please check your entry")
@@ -383,29 +394,29 @@ def search():  # gets user input
     ui.geometry(geo)
     label1 = Label(ui, image=backg)
     label1.place(x=0, y=0)
-    tl1 = Label(ui, text="Enter the first digit \n of your search code", bg='#bad5ed')
+    tl1 = Label(ui, text="Enter your search code", bg='#bad5ed')
     search.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
-    tl2 = Label(ui, text="Enter the second part \n of your search code:", bg='#bad5ed')
+    '''tl2 = Label(ui, text="Enter the second part \n of your search code:", bg='#bad5ed')
     search.text2 = Text(ui, height=2, width=40, bg='#bad5ed')
     tl3 = Label(ui, text="Enter the last two digits \n of your search code:", bg='#bad5ed')
     search.text3 = Text(ui, height=2, width=40, bg='#bad5ed')
     # tl4 = Label(ui, text="Choose vaccine: \n (Covaxin or Covishield)", bg='#bad5ed') DEPRECATED
-    # finalbook.text4 = Text(ui, height=2, width=40, bg='#bad5ed') DEPRECATED
+    # finalbook.text4 = Text(ui, height=2, width=40, bg='#bad5ed') DEPRECATED'''
     btn = Button(ui, text="Submit", bg='#bad5ed', command=search2)
     btn2 = Button(ui, text="   Back   ", bg='#bad5ed', command=swdraw)
     btn['font'] = fint
     btn2['font'] = fint
     tl1['font'] = fynt
-    tl2['font'] = fynt
-    tl3['font'] = fynt
+    # tl2['font'] = fynt
+    # tl3['font'] = fynt
     # tl4['font'] = fynt DEPRECATED
     tl1.place(x=sw / 10, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
-    tl2.place(x=sw / 10, y=sh / 8 + 150)
-    tl3.place(x=sw / 10, y=sh / 8 + 300)
+    # tl2.place(x=sw / 10, y=sh / 8 + 150)
+    # tl3.place(x=sw / 10, y=sh / 8 + 300)
     # tl4.place(x=sw / 8, y=sh / 8 + sh / 3) DEPRECATED
     search.text1.place(x=sw - 300, y=sh / 8)
-    search.text2.place(x=sw - 300, y=sh / 8 + 150)
-    search.text3.place(x=sw - 300, y=sh / 8 + 300)
+    '''search.text2.place(x=sw - 300, y=sh / 8 + 150)
+    search.text3.place(x=sw - 300, y=sh / 8 + 300)'''
     # search.text4.place(x=sw / 2, y=sh / 8 + sh / 3)
     btn.place(x=sw - (appw / 3.5), y=sh - (apph - 700))
     btn2.place(x=sw - (appw / 3.5), y=sh - (apph - 775))
@@ -417,14 +428,22 @@ def search():  # gets user input
 
 def cancel2():  # makes changes in sql database
     print("gamer")
-    aria = int(cancel.text1.get(1.0, "end-1c"))
-    hosp = cancel.text2.get(1.0, "end-1c")
-    aidi = int(cancel.text3.get(1.0, "end-1c"))
+    arua = cancel.text1.get(1.0, "end-1c")
+    aria = 0
+    hosp = ''
+    aidi = 0
+    # hosp = cancel.text2.get(1.0, "end-1c")
+    # aidi = int(cancel.text3.get(1.0, "end-1c"))
     # if int(cancel.text3.get(1.0, "end-1c")).isnumeric(): DEPRECATED
 
     # else:
     # tkinter.messagebox.showerror("numnum", "Incorrect ID. Exiting..")
     # sys.exit()
+    yea = arua.split('-')
+    aria = int(yea[0])
+    hosp = yea[1]
+    aidi = int(yea[2])
+
     cancel_1(aria, hosp, aidi)
     tkinter.messagebox.showinfo('Cancellation complete', 'Your booking has been cancelled.')
     print('gg')
@@ -444,29 +463,29 @@ def cancel():  # cancel function
     ui.geometry(geo)
     label1 = Label(ui, image=backg)
     label1.place(x=0, y=0)
-    tl1 = Label(ui, text="Enter the first digit \n of your search code", bg='#bad5ed')
+    tl1 = Label(ui, text="Enter your search code", bg='#bad5ed')
     cancel.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
-    tl2 = Label(ui, text="Enter the second part \n of your search code:", bg='#bad5ed')
+    '''tl2 = Label(ui, text="Enter the second part \n of your search code:", bg='#bad5ed')
     cancel.text2 = Text(ui, height=2, width=40, bg='#bad5ed')
     tl3 = Label(ui, text="Enter the last two digits \n of your search code:", bg='#bad5ed')
     cancel.text3 = Text(ui, height=2, width=40, bg='#bad5ed')
     # tl4 = Label(ui, text="Choose vaccine: \n (Covaxin or Covishield)", bg='#bad5ed') DEPRECATED
-    # finalbook.text4 = Text(ui, height=2, width=40, bg='#bad5ed') DEPRECATED
+    # finalbook.text4 = Text(ui, height=2, width=40, bg='#bad5ed') DEPRECATED'''
     btn = Button(ui, text="Submit", bg='#bad5ed', command=cancel2)
     btn2 = Button(ui, text="   Back   ", bg='#bad5ed', command=cwdraw)
     btn['font'] = fint
     btn2['font'] = fint
     tl1['font'] = fynt
-    tl2['font'] = fynt
-    tl3['font'] = fynt
+    # tl2['font'] = fynt
+    # tl3['font'] = fynt
     # tl4['font'] = fynt DEPRECATED
     tl1.place(x=sw / 10, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
-    tl2.place(x=sw / 10, y=sh / 8 + 150)
-    tl3.place(x=sw / 10, y=sh / 8 + 300)
+    # tl2.place(x=sw / 10, y=sh / 8 + 150)
+    # tl3.place(x=sw / 10, y=sh / 8 + 300)
     # tl4.place(x=sw / 8, y=sh / 8 + sh / 3) DEPRECATED
     cancel.text1.place(x=sw - 300, y=sh / 8)
-    cancel.text2.place(x=sw - 300, y=sh / 8 + 150)
-    cancel.text3.place(x=sw - 300, y=sh / 8 + 300)
+    # cancel.text2.place(x=sw - 300, y=sh / 8 + 150)
+    # cancel.text3.place(x=sw - 300, y=sh / 8 + 300)
     # cancel.text4.place(x=sw / 2, y=sh / 8 + sh / 3)
     btn.place(x=sw - (appw / 3.5), y=sh - (apph - 700))
     btn2.place(x=sw - (appw / 3.5), y=sh - (apph - 775))
