@@ -179,18 +179,18 @@ def cancel_1(area, hospital, id):
         # print(query)
         cur.execute(query)
     elif area == 3:
-        db = sql.connect(
-            host="localhost",
-            user="root",
-            password="password",
-            database='southchennai'
-        )
-        # print("we're gonna be talking about the south")
-        cur = db.cursor()
-        query = "DELETE FROM " + hospital + " WHERE ID = " + str(id) + ";"
-        # print(query)
-        cur.execute(query)
+            db = sql.connect(
+                host="localhost",
+                user="root",
+                password="password",
+                database='southchennai'
+            )
+            # print("we're gonna be talking about the south")
+            cur = db.cursor()
+            query = "DELETE FROM " + hospital + " WHERE ID = " + str(id) + ";"
+            # print(query)
+            cur.execute(query)
     else:
         print("you messed up")
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
