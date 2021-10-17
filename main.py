@@ -1,4 +1,5 @@
 import tkinter
+import pickle
 import tkinter.messagebox
 from tkinter import *
 from tkinter import font
@@ -61,12 +62,42 @@ if not rootbool:
 # txt2.pack()
 txt3.pack(pady=30)
 boo1 = 0
+user = {}
+
 
 def die():  # kills the program because not over 18
     print("die")
     sys.exit()
 
 # REGISTER SECTION
+def goback():
+    rg1.withdraw()
+    newroot = Toplevel()
+    newroot.geometry(geo)
+    root = newroot
+    top = Frame(root, bg='#ffffff')
+    bottom = Frame(root, bg='#bad5ed')
+    top.pack(pady=10)
+    bottom.pack()
+    b1 = Button(root, text="REGISTER", bg='#bad5ed', command=regwindow)
+    b1['font'] = fint
+    b2 = Button(root, text="LOGIN", bg='#bad5ed', command=logwindow)
+    btn2 = Button(root, text="   EXIT   ", bg='#bad5ed', command=die)
+    b2['font'] = fint
+    btn2['font'] = fint
+    b1.pack(in_=bottom, side=LEFT)
+    b2.pack(in_=bottom, side=LEFT)
+    btn2.pack(in_=bottom, pady=10)
+
+def regget():
+    print("create user")
+    username = regwindow.text1.get(1.0, 'end-1c')
+    secr = regwindow.text2.get()
+    user[username] = secr
+    with open('user.dat', 'ab') as userfile:
+        pickle.dump(user, userfile)
+    tkinter.messagebox.showinfo('Account created', 'Your account has been created.')
+
 def regwindow():
     root.withdraw()
     global rg1
@@ -78,9 +109,9 @@ def regwindow():
     print("data time")
     tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
     tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
-    text2 = Entry(ui, show="*", width=15, textvariable=strg)
-    text1 = Text(ui, height=2, width=40, bg='#bad5ed')
-    btn = Button(ui, text="Submit", bg='#bad5ed', command=bookcommit)
+    regwindow.text2 = Entry(ui, show="*", textvariable=strg, bg='#bad5ed')
+    regwindow.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
+    btn = Button(ui, text="Submit", bg='#bad5ed', command=regget)
     btn['font'] = fint
     tl1['font'] = fynt
     tl2['font'] = fynt
@@ -88,13 +119,38 @@ def regwindow():
     tl2.place(x=sw / 8, y=sh / 8 + sh / 10)
     '''tl3.place(x=sw / 8, y=sh / 8 + sh / 5)
     tl4.place(x=sw / 8, y=sh / 8 + sh / 3)'''
-    text1.place(x=sw / 2, y=sh / 8)
-    text2.place(x=sw / 2, y=sh / 8 + sh / 10)
+    regwindow.text1.place(x=sw / 2, y=sh / 8)
+    regwindow.text2.place(x=sw / 2, y=sh / 8 + sh / 10, height=40, width=160)
     btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
 
+def logget():
+    print("check if real")
 
 def logwindow():
     print("yeah")
+    root.withdraw()
+    global lg1
+    lg1 = Toplevel()
+    ui = rg1
+    l1 = Label(ui, image=backg)
+    l1.place(x=0, y=0)
+    rg1.geometry(geo)
+    print("data time")
+    tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
+    tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
+    regwindow.text2 = Entry(ui, show="*", textvariable=strg, bg='#bad5ed')
+    regwindow.text1 = Text(ui, height=2, width=40, bg='#bad5ed')
+    btn = Button(ui, text="Submit", bg='#bad5ed', command=logget)
+    btn['font'] = fint
+    tl1['font'] = fynt
+    tl2['font'] = fynt
+    tl1.place(x=sw / 8, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
+    tl2.place(x=sw / 8, y=sh / 8 + sh / 10)
+    '''tl3.place(x=sw / 8, y=sh / 8 + sh / 5)
+    tl4.place(x=sw / 8, y=sh / 8 + sh / 3)'''
+    regwindow.text1.place(x=sw / 2, y=sh / 8)
+    regwindow.text2.place(x=sw / 2, y=sh / 8 + sh / 10, height=40, width=160)
+    btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
 
 
 top = Frame(root, bg='#ffffff')
