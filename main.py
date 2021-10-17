@@ -606,7 +606,7 @@ def cancel():  # cancel function
 
 # LOGIN SECTION
 
-def pleasework():
+def rootdraw():
     logroot.withdraw()
     root.deiconify()
     screen_width = root.winfo_screenwidth()  # this is a function used to get width of the computer running windows
@@ -617,7 +617,6 @@ def pleasework():
     apph: int = 720
     backg = PhotoImage(file="E:\d.png")
     rootbool = False
-
     x = int(sw - (appw / 2))
     # this is used to position the app widget relative to the resolution of whatever monitor it's running on
     y = int(sh - (apph / 2))
@@ -675,7 +674,7 @@ def logget():
             msg = 'Successfully logged in. Welcome, '+username+'.'
             tkinter.messagebox.showinfo('Success', msg)
             lg1.withdraw()
-            pleasework()
+            rootdraw()
 
         else:
             tkinter.messagebox.showerror('Failure', 'Incorrect username or password.')
