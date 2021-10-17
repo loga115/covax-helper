@@ -728,7 +728,7 @@ b1.pack(in_=bottom, side=LEFT)
 b2.pack(in_=bottom, side=LEFT)
 btn2.pack(in_=bottom, pady=10)
 
-
+# yes
 def mmenu():
     global rootbool
     rootbool = True
