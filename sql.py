@@ -4,7 +4,7 @@ def sqlfunc(area, hospital, name, age, gender, vax):
     db = sql.connect(
         host="localhost",
         user="root",
-        password="",
+        password="password1234",
         database=area
     )
     cur = db.cursor()
