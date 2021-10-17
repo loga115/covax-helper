@@ -62,6 +62,10 @@ if not rootbool:
 txt3.pack(pady=30)
 boo1 = 0
 
+def die():  # kills the program because not over 18
+    print("die")
+    sys.exit()
+
 # REGISTER SECTION
 def regwindow():
     root.withdraw()
@@ -70,8 +74,42 @@ def regwindow():
     ui = rg1
     l1 = Label(ui, image=backg)
     l1.place(x=0, y=0)
+    rg1.geometry(geo)
+    print("data time")
+    tl1 = Label(ui, text="Enter username:", bg='#bad5ed')
+    tl2 = Label(ui, text="Enter password:", bg='#bad5ed')
+    text2 = Entry(ui, show="*", width=15, textvariable=strg)
+    text1 = Text(ui, height=2, width=40, bg='#bad5ed')
+    btn = Button(ui, text="Submit", bg='#bad5ed', command=bookcommit)
+    btn['font'] = fint
+    tl1['font'] = fynt
+    tl2['font'] = fynt
+    tl1.place(x=sw / 8, y=sh / 8)  # relative positioning, better than grid positioning but more work less flexibility
+    tl2.place(x=sw / 8, y=sh / 8 + sh / 10)
+    '''tl3.place(x=sw / 8, y=sh / 8 + sh / 5)
+    tl4.place(x=sw / 8, y=sh / 8 + sh / 3)'''
+    text1.place(x=sw / 2, y=sh / 8)
+    text2.place(x=sw / 2, y=sh / 8 + sh / 10)
+    btn.place(x=sw - (appw / 3.5), y=sh - (apph / 4))
 
 
+def logwindow():
+    print("yeah")
+
+
+top = Frame(root, bg='#ffffff')
+bottom = Frame(root, bg='#bad5ed')
+top.pack(pady=10)
+bottom.pack()
+b1 = Button(root, text="REGISTER", bg='#bad5ed', command=regwindow)
+b1['font'] = fint
+b2 = Button(root, text="LOGIN", bg='#bad5ed', command=logwindow)
+btn2 = Button(root, text="   EXIT   ", bg='#bad5ed', command=die)
+b2['font'] = fint
+btn2['font'] = fint
+b1.pack(in_=bottom, side=LEFT)
+b2.pack(in_=bottom, side=LEFT)
+btn2.pack(in_=bottom, pady=10)
 
 
 # BOOKING SECTION START
@@ -80,7 +118,7 @@ def nwback():
     mmenu()
 
 
-def endwindow(): # thank you window
+def endwindow():  # thank you window
     endwindow.root3 = Toplevel()
     ui = endwindow.root3
     endwindow.root3.geometry(geo)
@@ -215,7 +253,7 @@ def finalbook(event):  # get details of patient and add to table finally
 
 
 # noinspection PyUnusedLocal
-def ac_caller(event): # calls area caller. a calling function calling a calling function. meta..
+def ac_caller(event):  # calls area caller. a calling function calling a calling function. meta..
     area_caller()
 
 
@@ -281,10 +319,6 @@ def area_caller():  # give them a hospital list depending on area, part of book 
         area_caller.hospitals.bind('<<ComboboxSelected>>', finalbook)
         print()
 
-
-def die():  # kills the program because not over 18
-    print("die")
-    sys.exit()
 
 
 def bwdraw():
